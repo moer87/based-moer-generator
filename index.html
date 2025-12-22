@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Based Moer - Bald Moe Art Generator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Oxanium', monospace;
+            background: #0a0a0a;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            padding: 30px 0;
+            border-bottom: 1px solid #222;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: #8b5cf6;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: #ffffff;
+        }
+
+        .main-nav a {
+            color: #a0a0a0;
+            text-decoration: none;
+            margin-left: 30px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .main-nav a:hover {
+            color: #8b5cf6;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 80px 0 60px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            background: linear-gradient(90deg, #8b5cf6, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: #a0a0a0;
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+
+        /* Main Content */
+        .generator-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            padding: 40px 0 80px;
+        }
+
+        @media (max-width: 768px) {
+            .generator-wrapper {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Preview Section */
+        .preview-section {
+            background: #111;
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid #222;
+        }
+
+        .preview-title {
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            color: #8b5cf6;
+            text-align: center;
+        }
+
+        .preview-container {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto 30px;
+            background: #000;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 2px solid #222;
+        }
+
+        #previewCanvas {
+            width: 100%;
+            height: auto;
+            display: block;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+        }
+
+        .download-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(90deg, #8b5cf6, #3b82f6);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s;
+            margin-bottom: 20px;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .trait-display {
+            background: #151515;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border: 1px solid #222;
+        }
+
+        .trait-display h3 {
+            color: #8b5cf6;
+            margin-bottom: 10px;
+        }
+
+        #currentTraits {
+            font-size: 0.9rem;
+            color: #a0a0a0;
+        }
+
+        /* Traits Selector */
+        .traits-section {
+            background: #111;
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid #222;
+        }
+
+        .traits-title {
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            color: #8b5cf6;
+            text-align: center;
+        }
+
+        .trait-category {
+            background: #151515;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #222;
+        }
+
+        .trait-category h3 {
+            color: #ffffff;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .trait-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+        }
+
+        .trait-option {
+            background: #222;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            border: 2px solid transparent;
+        }
+
+        .trait-option:hover {
+            background: #2a2a2a;
+        }
+
+        .trait-option.selected {
+            border-color: #8b5cf6;
+            background: #1a1a2e;
+        }
+
+        .trait-option img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+            margin-bottom: 8px;
+            image-rendering: pixelated;
+        }
+
+        .trait-option span {
+            font-size: 0.85rem;
+            color: #a0a0a0;
+            display: block;
+        }
+
+        /* Footer */
+        footer {
+            padding: 40px 0;
+            border-top: 1px solid #222;
+            text-align: center;
+            color: #666;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .social-links a {
+            color: #666;
+            margin-left: 20px;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: #8b5cf6;
+        }
+
+        @media (max-width: 768px) {
+            .footer-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="https://based-moer.vercel.app" class="logo">BASED<span> MOER</span></a>
+                <nav class="main-nav">
+                    <a href="https://based-moer.vercel.app">Home</a>
+                    <a href="#generator">Generator</a>
+                    <a href="#gallery">Gallery</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>BALD MOE ART GENERATOR</h1>
+            <p class="hero-subtitle">Explore and preview traits from the Genesis Collection. Mix and match to create unique Bald Moe combinations and download your favorite previews.</p>
+        </div>
+    </section>
+
+    <main class="container">
+        <div class="generator-wrapper">
+            <!-- Preview Section -->
+            <section class="preview-section">
+                <h2 class="preview-title">PREVIEW</h2>
+                <div class="preview-container">
+                    <canvas id="previewCanvas" width="400" height="400"></canvas>
+                </div>
+                <button id="downloadBtn" class="download-btn">DOWNLOAD PREVIEW</button>
+                
+                <div class="trait-display">
+                    <h3>Current Traits</h3>
+                    <div id="currentTraits">
+                        Background: Mint Green • Body: Normal • Ear: Golden • Eye: Neutral • Eye Attachment: None • Head: None
+                    </div>
+                </div>
+            </section>
+
+            <!-- Traits Selector -->
+            <section class="traits-section">
+                <h2 class="traits-title">SELECT TRAITS</h2>
+                
+                <div class="trait-category">
+                    <h3>BACKGROUND</h3>
+                    <div class="trait-options" id="backgroundTraits">
+                        <!-- Options will be filled by JavaScript -->
+                    </div>
+                </div>
+
+                <div class="trait-category">
+                    <h3>BODY</h3>
+                    <div class="trait-options" id="bodyTraits">
+                        <!-- Options will be filled by JavaScript -->
+                    </div>
+                </div>
+
+                <div class="trait-category">
+                    <h3>EAR</h3>
+                    <div class="trait-options" id="earTraits">
+                        <!-- Options will be filled by JavaScript -->
+                    </div>
+                </div>
+
+                <div class="trait-category">
+                    <h3>EYE</h3>
+                    <div class="trait-options" id="eyeTraits">
+                        <!-- Options will be filled by JavaScript -->
+                    </div>
+                </div>
+
+                <div class="trait-category">
+                    <h3>EYE ATTACHMENT</h3>
+                    <div class="trait-options" id="eyeAttachmentTraits">
+                        <!-- Options will be filled by JavaScript -->
+                    </div>
+                </div>
+
+                <div class="trait-category">
+                    <h3>HEAD</h3>
+                    <div class="trait-options" id="headTraits">
+                        <!-- Options will be filled by JavaScript -->
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="copyright">
+                    &copy; 2025 Based Moer. All rights reserved.
+                </div>
+                <div class="social-links">
+                    <a href="#">Twitter</a>
+                    <a href="#">Discord</a>
+                    <a href="#">GitHub</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ========== TRAIT DATA ==========
+        const traitsData = {
+            backgrounds: [
+                { name: "Mint Green", cid: "bafkreigndanezt3yf3rlgoehh4wnhasloqso6x2tddku6qtqki6rcc2mt4" },
+                { name: "Pale Lime", cid: "bafkreifi5ntqmzl6mmq6c52d2pc3vfbfilkhdw4g6vqmkdsnqcbnpww7lq" },
+                { name: "Rose Punk", cid: "bafkreie5x6u5u4mt4xjdctu36humogfjhyrgdg6dueaffgvzvielabl6nm" }
+            ],
+            bodies: [
+                { name: "Normal", cid: "bafkreib6zjykxl2qzn5ljeezwn4lpnd4m3c3qgeibmpwpoxejf44bkhunq" }
+            ],
+            ears: [
+                { name: "Golden", cid: "bafkreig6uvom4cwwfwo6k5akwqmgtnzfvtjugak43wzxy6v3e4m2nr7ogu" },
+                { name: "Belle of Asia", cid: "bafkreidbzbjgy4d6iihzaujencesrfdwf7fs6f65gnxwqgx3kstfepgk4y" }
+            ],
+            eyes: [
+                { name: "Neutral", cid: "bafkreihmlxwju4egc2eiiyupuqiwuoth2vst4kxxqluncb4mmzr7eqnksy" },
+                { name: "Shocked", cid: "bafkreigv32mmrtmjqkkgdifmbvusls26bi72etjz36pc2kcs2uvmtgadgq" }
+            ],
+            eyeAttachments: [
+                { name: "None", cid: "bafkreieokiymfogfljqp6xwg7fzzdxbbdnfrqu55gfm3pdnlafgvixdf5q" },
+                { name: "Night Specs", cid: "bafkreidmoymytmes2y2f3qx5gv63wsiogrjqvcbtdnnef74dw7vafi53ky" },
+                { name: "Reading", cid: "bafkreicaedz6y6roqxnzahmod7geafa6ccklw5id5jdfesdezqfvzgluua" },
+                { name: "Emerald Optic", cid: "bafkreib64ht25jr6feos6g35iw553qzmbgyihe7dkeyvwouqm4pw2aqpce" }
+            ],
+            heads: [
+                { name: "None", cid: "bafkreieokiymfogfljqp6xwg7fzzdxbbdnfrqu55gfm3pdnlafgvixdf5q" },
+                { name: "Bandana", cid: "bafkreiftbb53qtpfxpprwh36nksi2k7qvv7lr2cfcbupcmrslbpju6i32y" },
+                { name: "Fedoara", cid: "bafkreif3vqw2emcbshxayyhshtmpdg6vtzawzttqlwydbtvyes63f76nxi" },
+                { name: "Base Cap", cid: "bafkreigam3dr6t6tzs4bgxxpqa52r5sj7fme33pnopjgbanumrxl2xfm2y" }
+            ]
+        };
+
+        // ========== CURRENT SELECTION ==========
+        let currentSelection = {
+            background: traitsData.backgrounds[0],
+            body: traitsData.bodies[0],
+            ear: traitsData.ears[0],
+            eye: traitsData.eyes[0],
+            eyeAttachment: traitsData.eyeAttachments[0],
+            head: traitsData.heads[0]
+        };
+
+        // ========== CANVAS SETUP ==========
+        const canvas = document.getElementById('previewCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // ========== LOAD AND DRAW IMAGES ==========
+        function loadImage(cid) {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                img.crossOrigin = "anonymous";
+                // Using Pinata public gateway
+                img.src = `https://gateway.pinata.cloud/ipfs/${cid}`;
+                img.onload = () => resolve(img);
+                img.onerror = reject;
+            });
+        }
+
+        async function drawPreview() {
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw in correct layer order
+            try {
+                // 1. Background
+                const bgImg = await loadImage(currentSelection.background.cid);
+                ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
+                
+                // 2. Body
+                const bodyImg = await loadImage(currentSelection.body.cid);
+                ctx.drawImage(bodyImg, 0, 0, canvas.width, canvas.height);
+                
+                // 3. Ear
+                const earImg = await loadImage(currentSelection.ear.cid);
+                ctx.drawImage(earImg, 0, 0, canvas.width, canvas.height);
+                
+                // 4. Eye
+                const eyeImg = await loadImage(currentSelection.eye.cid);
+                ctx.drawImage(eyeImg, 0, 0, canvas.width, canvas.height);
+                
+                // 5. Eye Attachment (if not "None")
+                if (currentSelection.eyeAttachment.name !== "None") {
+                    const eyeAttachImg = await loadImage(currentSelection.eyeAttachment.cid);
+                    ctx.drawImage(eyeAttachImg, 0, 0, canvas.width, canvas.height);
+                }
+                
+                // 6. Head (if not "None")
+                if (currentSelection.head.name !== "None") {
+                    const headImg = await loadImage(currentSelection.head.cid);
+                    ctx.drawImage(headImg, 0, 0, canvas.width, canvas.height);
+                }
+                
+                updateTraitsDisplay();
+                
+            } catch (error) {
+                console.error("Error loading images:", error);
+                ctx.fillStyle = "#333";
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = "#fff";
+                ctx.font = "16px Oxanium";
+                ctx.textAlign = "center";
+                ctx.fillText("Error loading trait images", canvas.width/2, canvas.height/2);
+            }
+        }
+
+        // ========== CREATE TRAIT SELECTORS ==========
+        function createTraitSelectors() {
+            // Backgrounds
+            const bgContainer = document.getElementById('backgroundTraits');
+            traitsData.backgrounds.forEach(trait => {
+                const option = document.createElement('div');
+                option.className = 'trait-option';
+                option.innerHTML = `
+                    <img src="https://gateway.pinata.cloud/ipfs/${trait.cid}" alt="${trait.name}">
+                    <span>${trait.name}</span>
+                `;
+                option.onclick = () => selectTrait('background', trait, bgContainer);
+                bgContainer.appendChild(option);
+            });
+
+            // Bodies
+            const bodyContainer = document.getElementById('bodyTraits');
+            traitsData.bodies.forEach(trait => {
+                const option = document.createElement('div');
+                option.className = 'trait-option';
+                option.innerHTML = `
+                    <img src="https://gateway.pinata.cloud/ipfs/${trait.cid}" alt="${trait.name}">
+                    <span>${trait.name}</span>
+                `;
+                option.onclick = () => selectTrait('body', trait, bodyContainer);
+                bodyContainer.appendChild(option);
+            });
+
+            // Ears
+            const earContainer = document.getElementById('earTraits');
+            traitsData.ears.forEach(trait => {
+                const option = document.createElement('div');
+                option.className = 'trait-option';
+                option.innerHTML = `
+                    <img src="https://gateway.pinata.cloud/ipfs/${trait.cid}" alt="${trait.name}">
+                    <span>${trait.name}</span>
+                `;
+                option.onclick = () => selectTrait('ear', trait, earContainer);
+                earContainer.appendChild(option);
+            });
+
+            // Eyes
+            const eyeContainer = document.getElementById('eyeTraits');
+            traitsData.eyes.forEach(trait => {
+                const option = document.createElement('div');
+                option.className = 'trait-option';
+                option.innerHTML = `
+                    <img src="https://gateway.pinata.cloud/ipfs/${trait.cid}" alt="${trait.name}">
+                    <span>${trait.name}</span>
+                `;
+                option.onclick = () => selectTrait('eye', trait, eyeContainer);
+                eyeContainer.appendChild(option);
+            });
+
+            // Eye Attachments
+            const eyeAttachContainer = document.getElementById('eyeAttachmentTraits');
+            traitsData.eyeAttachments.forEach(trait => {
+                const option = document.createElement('div');
+                option.className = 'trait-option';
+                option.innerHTML = `
+                    <img src="https://gateway.pinata.cloud/ipfs/${trait.cid}" alt="${trait.name}">
+                    <span>${trait.name}</span>
+                `;
+                option.onclick = () => selectTrait('eyeAttachment', trait, eyeAttachContainer);
+                eyeAttachContainer.appendChild(option);
+            });
+
+            // Heads
+            const headContainer = document.getElementById('headTraits');
+            traitsData.heads.forEach(trait => {
+                const option = document.createElement('div');
+                option.className = 'trait-option';
+                option.innerHTML = `
+                    <img src="https://gateway.pinata.cloud/ipfs/${trait.cid}" alt="${trait.name}">
+                    <span>${trait.name}</span>
+                `;
+                option.onclick = () => selectTrait('head', trait, headContainer);
+                headContainer.appendChild(option);
+            });
+
+            // Select first options
+            setTimeout(() => {
+                selectInitialOptions();
+            }, 100);
+        }
+
+        function selectInitialOptions() {
+            const categories = ['background', 'body', 'ear', 'eye', 'eyeAttachment', 'head'];
+            categories.forEach(category => {
+                const container = document.getElementById(category + 'Traits');
+                if (container && container.children.length > 0) {
+                    container.children[0].click();
+                }
+            });
+        }
+
+        function selectTrait(category, trait, container) {
+            // Update current selection
+            currentSelection[category] = trait;
+            
+            // Update UI - remove selected class from all, add to clicked
+            const options = container.children;
+            for (let option of options) {
+                option.classList.remove('selected');
+            }
+            event.currentTarget.classList.add('selected');
+            
+            // Redraw preview
+            drawPreview();
+        }
+
+        // ========== UPDATE TRAITS DISPLAY ==========
+        function updateTraitsDisplay() {
+            const traitsText = `Background: ${currentSelection.background.name} • Body: ${currentSelection.body.name} • Ear: ${currentSelection.ear.name} • Eye: ${currentSelection.eye.name} • Eye Attachment: ${currentSelection.eyeAttachment.name} • Head: ${currentSelection.head.name}`;
+            document.getElementById('currentTraits').textContent = traitsText;
+        }
+
+        // ========== DOWNLOAD FUNCTION ==========
+        document.getElementById('downloadBtn').addEventListener('click', function() {
+            // Create a temporary link
+            const link = document.createElement('a');
+            link.download = `bald-moe-${Date.now()}.png`;
+            
+            // Convert canvas to data URL and trigger download
+            canvas.toBlob(function(blob) {
+                link.href = URL.createObjectURL(blob);
+                link.click();
+                URL.revokeObjectURL(link.href);
+            });
+        });
+
+        // ========== INITIALIZE ==========
+        window.onload = function() {
+            createTraitSelectors();
+            drawPreview();
+        };
+    </script>
+</body>
+</html>
