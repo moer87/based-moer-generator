@@ -153,21 +153,6 @@
             line-height: 1.7;
         }
 
-        /* GENERATOR LAYOUT */
-        .generator-layout {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            margin-top: 40px;
-        }
-
-        @media (max-width: 768px) {
-            .generator-layout {
-                grid-template-columns: 1fr;
-                gap: 30px;
-            }
-        }
-
         /* PREVIEW SECTION */
         .preview-section {
             background: var(--off-white);
@@ -175,6 +160,8 @@
             border-radius: var(--radius);
             box-shadow: var(--shadow);
             border: 2px solid var(--base-blue-lightest);
+            max-width: 800px;
+            margin: 0 auto 40px;
         }
 
         .preview-title {
@@ -227,6 +214,7 @@
             padding: 20px;
             border-radius: var(--radius);
             border-left: 4px solid var(--base-blue);
+            margin-top: 20px;
         }
 
         .current-traits h3 {
@@ -247,13 +235,15 @@
             line-height: 1.6;
         }
 
-        /* TRAITS SELECTOR */
+        /* TRAITS SELECTOR - NOW UNDER PREVIEW */
         .traits-selector {
             background: var(--off-white);
             padding: 30px;
             border-radius: var(--radius);
             box-shadow: var(--shadow);
             border: 2px solid var(--base-blue-lightest);
+            max-width: 800px;
+            margin: 0 auto;
         }
 
         .traits-title {
@@ -491,7 +481,7 @@
                 padding: 0 10px;
             }
             
-            /* PREVIEW ON MOBILE */
+            /* PREVIEW SECTION ON MOBILE */
             .preview-section, .traits-selector {
                 padding: 20px;
             }
@@ -502,6 +492,15 @@
             
             .preview-container {
                 max-width: 300px;
+            }
+            
+            .download-btn {
+                padding: 12px;
+                font-size: 1rem;
+            }
+            
+            .trait-options {
+                grid-template-columns: repeat(2, 1fr);
             }
             
             /* INFO SECTION ON MOBILE */
@@ -572,6 +571,25 @@
             .preview-container {
                 max-width: 250px;
             }
+            
+            .trait-options {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* SMALL PHONES (VERY NARROW) */
+        @media (max-width: 350px) {
+            .trait-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero-title {
+                font-size: 1.6rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1rem;
+            }
         }
     </style>
     
@@ -611,69 +629,67 @@
             <h2 class="section-title">Art <span class="highlight">Generator</span></h2>
             <p class="section-lead">Select traits from each category to create your custom Bald Moe preview</p>
             
-            <div class="generator-layout">
-                <!-- Preview Section -->
-                <div class="preview-section">
-                    <h2 class="preview-title"><i class="fas fa-image"></i> Preview</h2>
-                    <div class="preview-container">
-                        <canvas id="previewCanvas" width="400" height="400"></canvas>
+            <!-- Preview Section -->
+            <div class="preview-section">
+                <h2 class="preview-title"><i class="fas fa-image"></i> Preview</h2>
+                <div class="preview-container">
+                    <canvas id="previewCanvas" width="400" height="400"></canvas>
+                </div>
+                <button id="downloadBtn" class="download-btn">
+                    <i class="fas fa-download"></i> Download Preview
+                </button>
+                
+                <div class="current-traits">
+                    <h3><i class="fas fa-list-check"></i> Current Traits</h3>
+                    <div id="currentTraits">
+                        Background: Mint Green • Body: Normal • Ear: Golden • Eye: Neutral • Eye Attachment: None • Head: None
                     </div>
-                    <button id="downloadBtn" class="download-btn">
-                        <i class="fas fa-download"></i> Download Preview
-                    </button>
-                    
-                    <div class="current-traits">
-                        <h3><i class="fas fa-list-check"></i> Current Traits</h3>
-                        <div id="currentTraits">
-                            Background: Mint Green • Body: Normal • Ear: Golden • Eye: Neutral • Eye Attachment: None • Head: None
-                        </div>
+                </div>
+            </div>
+
+            <!-- Traits Selector - Now under preview -->
+            <div class="traits-selector">
+                <h2 class="traits-title"><i class="fas fa-sliders-h"></i> Select Traits</h2>
+                
+                <div class="trait-category">
+                    <h3><i class="fas fa-mountain"></i> Background</h3>
+                    <div class="trait-options" id="backgroundTraits">
+                        <!-- Will be filled by JavaScript -->
                     </div>
                 </div>
 
-                <!-- Traits Selector -->
-                <div class="traits-selector">
-                    <h2 class="traits-title"><i class="fas fa-sliders-h"></i> Select Traits</h2>
-                    
-                    <div class="trait-category">
-                        <h3><i class="fas fa-mountain"></i> Background</h3>
-                        <div class="trait-options" id="backgroundTraits">
-                            <!-- Will be filled by JavaScript -->
-                        </div>
+                <div class="trait-category">
+                    <h3><i class="fas fa-user"></i> Body</h3>
+                    <div class="trait-options" id="bodyTraits">
+                        <!-- Will be filled by JavaScript -->
                     </div>
+                </div>
 
-                    <div class="trait-category">
-                        <h3><i class="fas fa-user"></i> Body</h3>
-                        <div class="trait-options" id="bodyTraits">
-                            <!-- Will be filled by JavaScript -->
-                        </div>
+                <div class="trait-category">
+                    <h3><i class="fas fa-ear-listen"></i> Ear</h3>
+                    <div class="trait-options" id="earTraits">
+                        <!-- Will be filled by JavaScript -->
                     </div>
+                </div>
 
-                    <div class="trait-category">
-                        <h3><i class="fas fa-ear-listen"></i> Ear</h3>
-                        <div class="trait-options" id="earTraits">
-                            <!-- Will be filled by JavaScript -->
-                        </div>
+                <div class="trait-category">
+                    <h3><i class="fas fa-eye"></i> Eye</h3>
+                    <div class="trait-options" id="eyeTraits">
+                        <!-- Will be filled by JavaScript -->
                     </div>
+                </div>
 
-                    <div class="trait-category">
-                        <h3><i class="fas fa-eye"></i> Eye</h3>
-                        <div class="trait-options" id="eyeTraits">
-                            <!-- Will be filled by JavaScript -->
-                        </div>
+                <div class="trait-category">
+                    <h3><i class="fas fa-glasses"></i> Eye Attachment</h3>
+                    <div class="trait-options" id="eyeAttachmentTraits">
+                        <!-- Will be filled by JavaScript -->
                     </div>
+                </div>
 
-                    <div class="trait-category">
-                        <h3><i class="fas fa-glasses"></i> Eye Attachment</h3>
-                        <div class="trait-options" id="eyeAttachmentTraits">
-                            <!-- Will be filled by JavaScript -->
-                        </div>
-                    </div>
-
-                    <div class="trait-category">
-                        <h3><i class="fas fa-hat-cowboy"></i> Head</h3>
-                        <div class="trait-options" id="headTraits">
-                            <!-- Will be filled by JavaScript -->
-                        </div>
+                <div class="trait-category">
+                    <h3><i class="fas fa-hat-cowboy"></i> Head</h3>
+                    <div class="trait-options" id="headTraits">
+                        <!-- Will be filled by JavaScript -->
                     </div>
                 </div>
             </div>
@@ -781,7 +797,6 @@
             return new Promise((resolve, reject) => {
                 const img = new Image();
                 img.crossOrigin = "anonymous";
-                // Using Pinata public gateway
                 img.src = `https://gateway.pinata.cloud/ipfs/${cid}`;
                 img.onload = () => resolve(img);
                 img.onerror = reject;
@@ -789,7 +804,6 @@
         }
 
         async function drawPreview() {
-            // Clear canvas
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
             try {
@@ -820,7 +834,6 @@
                 
             } catch (error) {
                 console.error("Error loading images:", error);
-                // Show error state
                 ctx.fillStyle = "#f8fafc";
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
                 ctx.fillStyle = "#64748b";
@@ -837,7 +850,7 @@
                 const option = document.createElement('div');
                 option.className = 'trait-option';
                 option.innerHTML = `
-                    <img src="https://gateway.pinata.cloud/ipfs/${trait.cid}" alt="${trait.name}">
+                    <img src="https://gateway.pinata.cloud/ipfs/${trait.cid}" alt="${trait.name}" loading="lazy">
                     <span>${trait.name}</span>
                 `;
                 option.onclick = () => selectTrait(category, trait, container);
@@ -924,13 +937,38 @@
             });
         });
 
+        // ========== SMOOTH SCROLL TO TRAITS AFTER SELECTION ==========
+        function scrollToTraitsIfNeeded() {
+            if (window.innerWidth <= 768) {
+                setTimeout(() => {
+                    document.querySelector('.traits-selector').scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }, 100);
+            }
+        }
+
+        // ========== TOUCH SUPPORT FOR MOBILE ==========
+        function addTouchSupport() {
+            const traitOptions = document.querySelectorAll('.trait-option');
+            traitOptions.forEach(option => {
+                option.addEventListener('touchstart', function(e) {
+                    e.preventDefault();
+                    this.click();
+                }, { passive: false });
+            });
+        }
+
         // ========== INITIALIZE ==========
         window.onload = function() {
             createTraitSelectors();
             drawPreview();
+            addTouchSupport();
             
             // Welcome message
             console.log('🎨 Bald Moe Art Generator Loaded!');
+            console.log('📱 Mobile-optimized stacked layout');
             console.log('🚀 Mix and match traits to create unique Bald Moe previews');
         };
     </script>
