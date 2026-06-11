@@ -275,6 +275,8 @@
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
+      justify-content: center;
+      margin-top: 8px;
     }
 
     .hero-badges span {
@@ -572,6 +574,13 @@
       line-height: 1.2;
     }
 
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
     .info-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -685,6 +694,7 @@
         grid-template-columns: 1fr;
       }
 
+      .about-grid,
       .info-grid {
         grid-template-columns: 1fr;
       }
@@ -850,8 +860,8 @@
       </a>
 
       <nav class="main-nav" id="mainNav" aria-label="Main navigation">
-        <a href="#generator">Generator</a>
         <a href="#traits">Select Traits</a>
+        <a href="#generator">Generator</a>
         <a href="#about">About</a>
         <a href="#links">Links</a>
       </nav>
@@ -904,40 +914,14 @@
       </div>
     </section>
 
-    <section class="section" id="generator">
-      <div class="container">
-        <div class="section-heading">
-          <p class="section-kicker">Generator</p>
-          <h2>Build a Bald Moe fragment</h2>
-          <p>Choose traits from each category to create a custom preview.</p>
-        </div>
-
-        <div class="preview-shell">
-          <h2 class="preview-title"><i class="fa-solid fa-image"></i> Build Your Bald Moe Fragment</h2>
-          <div class="preview-grid">
-            <div class="preview-container" id="previewContainer">
-              <canvas id="previewCanvas" width="400" height="400"></canvas>
-            </div>
-            <button id="downloadBtn" class="download-btn">
-              <i class="fa-solid fa-download"></i> Download Preview
-            </button>
-
-            <div class="current-traits">
-              <h3><i class="fa-solid fa-list-check"></i> Current Traits</h3>
-              <div id="currentTraits">Loading traits...</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <section class="section section-alt" id="traits">
       <div class="container">
         <div class="traits-shell">
-          <h2 class="traits-title">Select Traits</h2>
-          <p class="traits-lead">
-            Choose one trait from each category. All thumbnails stay visible for faster browsing on phone and desktop.
-          </p>
+          <div class="section-heading">
+            <p class="section-kicker">Select Traits</p>
+            <h2>Choose Bald Moe fragments</h2>
+            <p>Pick one trait from each category before building the preview below.</p>
+          </div>
 
           <div class="trait-category">
             <h3><i class="fa-solid fa-mountain"></i> Background</h3>
@@ -972,64 +956,91 @@
       </div>
     </section>
 
-    <section class="section" id="about">
+    <section class="section" id="generator">
       <div class="container">
-        <div class="about-shell">
-          <div class="section-heading">
-            <p class="section-kicker">About</p>
-            <h2>Bald Moe and the Moerverse</h2>
-            <p>The generator sits inside the larger Based Moer story world.</p>
-          </div>
+        <div class="section-heading">
+          <p class="section-kicker">Generator</p>
+          <h2>Build a Bald Moe fragment</h2>
+          <p>Choose traits from each category to create a custom preview.</p>
+        </div>
 
-          <div class="info-grid">
-            <div class="info-card">
-              <i class="fa-solid fa-pen-nib"></i>
-              <h3>Fragments of Moe</h3>
-              <p>Every Bald Moe is a preserved fragment from a larger dream, memory, or identity inside the Moerverse.</p>
+        <div class="preview-shell">
+          <h2 class="preview-title"><i class="fa-solid fa-image"></i> Build Your Bald Moe Fragment</h2>
+          <div class="preview-grid">
+            <div class="preview-container">
+              <canvas id="previewCanvas" width="400" height="400"></canvas>
             </div>
+            <button id="downloadBtn" class="download-btn">
+              <i class="fa-solid fa-download"></i> Download Preview
+            </button>
 
-            <div class="info-card">
-              <i class="fa-solid fa-layer-group"></i>
-              <h3>222 Genesis NFTs</h3>
-              <p>The genesis collection forms the foundation of the wider ecosystem and future storytelling.</p>
-            </div>
-
-            <div class="info-card">
-              <i class="fa-solid fa-wand-magic-sparkles"></i>
-              <h3>Future Expansions</h3>
-              <p>Recovered Dream episodes, future fragments, and new collections will grow from this base.</p>
+            <div class="current-traits">
+              <h3><i class="fa-solid fa-list-check"></i> Current Traits</h3>
+              <div id="currentTraits">Loading traits...</div>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="section section-alt" id="links">
+    <section class="section section-alt" id="about">
       <div class="container">
-        <div class="section-heading">
-          <p class="section-kicker">Links</p>
-          <h2>Project network</h2>
-          <p>Quick access to the main pieces of the ecosystem.</p>
-        </div>
+        <div class="about-grid">
+          <div>
+            <div class="section-heading">
+              <p class="section-kicker">About</p>
+              <h2>Bald Moe and the Moerverse</h2>
+              <p>The generator sits inside the larger Based Moer story world.</p>
+            </div>
 
-        <div class="info-grid">
-          <a class="info-card" href="https://based-moer.vercel.app/" target="_blank" rel="noreferrer">
-            <i class="fa-solid fa-house"></i>
-            <h3>Main Website</h3>
-            <p>Back to the Based Moer homepage.</p>
-          </a>
+            <div class="info-grid">
+              <div class="info-card">
+                <i class="fa-solid fa-pen-nib"></i>
+                <h3>Fragments of Moe</h3>
+                <p>Every Bald Moe is a preserved fragment from a larger dream, memory, or identity inside the Moerverse.</p>
+              </div>
 
-          <a class="info-card" href="https://linktr.ee/basedmoer" target="_blank" rel="noreferrer">
-            <i class="fa-solid fa-link"></i>
-            <h3>Linktree</h3>
-            <p>Central hub for all Based Moer links.</p>
-          </a>
+              <div class="info-card">
+                <i class="fa-solid fa-layer-group"></i>
+                <h3>222 Genesis NFTs</h3>
+                <p>The genesis collection forms the foundation of the wider ecosystem and future storytelling.</p>
+              </div>
 
-          <a class="info-card" href="https://discord.gg/B6Pu9fARTX" target="_blank" rel="noreferrer">
-            <i class="fa-brands fa-discord"></i>
-            <h3>Discord</h3>
-            <p>Community space for updates and discussion.</p>
-          </a>
+              <div class="info-card">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                <h3>Future Expansions</h3>
+                <p>Recovered Dream episodes, future fragments, and new collections will grow from this base.</p>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="section-heading">
+              <p class="section-kicker">Project network</p>
+              <h2>Quick access to the main pieces of the ecosystem</h2>
+              <p>Everything relevant in one place.</p>
+            </div>
+
+            <div class="info-grid">
+              <a class="info-card" href="https://based-moer.vercel.app/" target="_blank" rel="noreferrer">
+                <i class="fa-solid fa-house"></i>
+                <h3>Main Website</h3>
+                <p>Back to the Based Moer homepage.</p>
+              </a>
+
+              <a class="info-card" href="https://linktr.ee/basedmoer" target="_blank" rel="noreferrer">
+                <i class="fa-solid fa-link"></i>
+                <h3>Linktree</h3>
+                <p>Central hub for all Based Moer links.</p>
+              </a>
+
+              <a class="info-card" href="https://discord.gg/B6Pu9fARTX" target="_blank" rel="noreferrer">
+                <i class="fa-brands fa-discord"></i>
+                <h3>Discord</h3>
+                <p>Community space for updates and discussion.</p>
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </section>
